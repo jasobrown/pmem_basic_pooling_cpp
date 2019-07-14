@@ -9,6 +9,7 @@ set(CMAKE_LINKER "/usr/bin/lld-7")
 set(CMAKE_NM "/usr/bin/llvm-nm-7")
 set(CMAKE_OBJDUMP "/usr/bin/llvm-objdump-7")
 set(CMAKE_RANLIB "/usr/bin/llvm-ranlib")
+set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(pmem-pool
   src/main.cpp

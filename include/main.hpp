@@ -1,5 +1,7 @@
 #pragma once
 
+#include <libpmemobj++/p.hpp>
+#include <libpmemobj++/persistent_ptr.hpp>
 #include <libpmemobj++/pool.hpp>
 
 using namespace pmem::obj;
@@ -14,10 +16,19 @@ namespace jeb_pmem {
 /// size of the heap. 
 class PoolRoot {
   public:
-    // Pointer to 'user object root' addr.
-    size_t userRootOffset;
+    p<uint64_t> userRootOffset;
+    p<uint64_t> heapSize;
+    //    p<unsigned char[16]> data;
+    //    p<unsigned char> data[16];
 
-    size_t intendedHeapSize;
+    // TODO(jeb): decide what to do with ctor/copy ctor/move, etc...
+    
+    size_t GetUserRootOffset();
+    void SetUserRootOffset(size_t size);
+
+    /// Retrieve the size of the heap as declared when the heap
+    /// was initially created.
+    size_t GetHeapSize();
 };
 
 class PoolUserRoot {
