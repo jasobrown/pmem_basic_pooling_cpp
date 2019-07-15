@@ -79,7 +79,7 @@ std::shared_ptr<PoolWrapper<PoolRoot>> loadPool(const std::string &path, size_t 
 void dumpHex(const unsigned char &data, int length) {
     //    std::cout << data <<std::endl;
     //    for (int i = 0; i < length; ++i) {
-        std::cout << std::hex << data << std::endl;
+    //        std::cout << std::hex << data << std::endl;
         // }
 }
 
@@ -105,6 +105,7 @@ int main() {
     //persistent_ptr<unsigned char[]> buf;
     int size = 1024;
     transaction::run(pool->pool_, [&] {
+       // example of a 'DataOutputStream'-like API 
        auto buf = make_persistent<unsigned char[]>(size);
        MemBuffer membuf(buf, size);
        int32_t v = -42;
@@ -116,6 +117,11 @@ int main() {
            arr[i] = i;
        }
        membuf.write(arr, size);
+
+       auto root = pool->pool_.root();
+       root->userRoot = make_persistent<PoolUserRoot>();
+       root->userRoot->val1 = 123456789;
+       root->userRoot->val2 = 987654321;
        
        // bonus points fpor linking this in the user root obj!!!!
        // not the fucking p_ptr, but the raw addr .... actually, p_ptr

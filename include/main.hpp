@@ -8,6 +8,12 @@ using namespace pmem::obj;
 
 namespace jeb_pmem {
 
+class PoolUserRoot {
+  public:
+    uint64_t val1;
+    int64_t val2;
+};
+
 /// Modeled after the pool root structure as implemented
 /// the java llpl library. (Note: this format isn't documented
 /// in the llpl, but here we are.) The format contains two
@@ -18,6 +24,7 @@ class PoolRoot {
   public:
     p<uint64_t> userRootOffset;
     p<uint64_t> heapSize;
+    persistent_ptr<PoolUserRoot> userRoot;
     //    p<unsigned char[16]> data;
     //    p<unsigned char> data[16];
 
@@ -29,12 +36,8 @@ class PoolRoot {
     /// Retrieve the size of the heap as declared when the heap
     /// was initially created.
     size_t GetHeapSize();
-};
 
-class PoolUserRoot {
-  public:
-    uint64_t val1;
-    int64_t val2;
+    persistent_ptr<PoolUserRoot> GetUserRoot();
 };
 
 /// A wrapper for the pmem pool such that we can automatically invoke
